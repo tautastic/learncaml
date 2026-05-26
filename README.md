@@ -16,7 +16,7 @@ Learn OCaml by solving coding challenges from LeetCode, Edabit, and similar site
 
 Use the `new-challenge.sh` script to create a properly structured challenge directory:
 
-```bash
+```text
 $ ./new-challenge.sh
 ==> Creating a new OCaml challenge stub
 Challenge name: Sum of Two Numbers
