@@ -1,0 +1,5 @@
+(test
+ (name test)
+ (libraries alcotest)
+ (modules solution test)
+ (package learncaml))
