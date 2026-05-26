@@ -19,19 +19,28 @@ Use the `new-challenge.sh` script to create a properly structured challenge dire
 ```text
 $ ./new-challenge.sh
 ==> Creating a new OCaml challenge stub
-Challenge name: Sum of Two Numbers
+Challenge name: Remainder of Two Numbers
+
 Description (one line, optional):
-Create a function that takes two numbers as arguments and returns their sum.
+Two numbers are passed as parameters. The first parameter divided by the second parameter will have a remainder, possibly zero. Return that value.
+
 Function signature (e.g., 'addition a b : int' or 'convert minutes'):
-addition a b : int
-Enter test cases...
-  0 0 -> 0
-  2 3 -> 5
-  (-3) (-6) -> (-9)
-  88 2 -> 90
+remainder a b : int
 
+Enter test cases. For each, provide arguments separated by spaces, then '->', then expected value.
+Examples:
+  Single arg:   5 -> 1825
+  Two args:     2 3 -> 5
+  String:       "hello" -> "HELLO"
+Finish with an empty line.
+  7 2 -> 1
+  3 4 -> 3
+  (-9) 45 -> (-9)
+  5 5 -> 0
 
-==> Creating ./challenges/0001-sum-of-two-numbers
+==> Creating ./challenges/0005-remainder-of-two-numbers
+==> Done. Created ./challenges/0005-remainder-of-two-numbers
+==> Next steps:
+    1. Edit ./challenges/0005-remainder-of-two-numbers/solution.ml to implement remainder
+    2. Run 'dune test' from project root
 ```
-
-After creation, edit `challenges/0001-sum-of-two-numbers/solution.ml` to replace `failwith "not implemented"` with your solution, then run `dune test`.
