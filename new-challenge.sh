@@ -101,6 +101,7 @@ cat > "$full_path/solution.ml" <<EOF
 
 $let_line
   failwith "not implemented"
+
 EOF
 
 # Write test.ml using plain asserts (works for any type)
