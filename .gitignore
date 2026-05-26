@@ -1,0 +1,23 @@
+# Build artifacts
+_build/
+*.install
+*.byte
+*.native
+*.exe
+
+# OPAM / local switches
+_opam/
+*.opam.locked
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Output logs
+*.log
+
+# Dune cache
+.dune/
