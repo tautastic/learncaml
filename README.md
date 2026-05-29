@@ -38,9 +38,9 @@ Finish with an empty line.
   (-9) 45 -> (-9)
   5 5 -> 0
 
-==> Creating ./challenges/0005-remainder-of-two-numbers
-==> Done. Created ./challenges/0005-remainder-of-two-numbers
+==> Creating ./challenges/0004-remainder-of-two-numbers
+==> Done. Created ./challenges/0004-remainder-of-two-numbers
 ==> Next steps:
-    1. Edit ./challenges/0005-remainder-of-two-numbers/solution.ml to implement remainder
-    2. Run 'dune test' from project root
+    1. Edit ./challenges/0004-remainder-of-two-numbers/solution.ml to implement remainder
+    2. Run 'dune test --action-stdout-on-success=swallow' from project root
 ```
