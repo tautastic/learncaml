@@ -130,6 +130,7 @@ for tc in "${test_cases[@]}"; do
   right="$(echo -n "$right" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
 
   label="${left} -> ${right}"
+  escaped_label=$(echo "$label" | sed 's/"/\\"/g')
 
   args=()
   for a in ${(s: :)left}; do
@@ -140,16 +141,16 @@ for tc in "${test_cases[@]}"; do
 
   case "$return_type" in
     int)
-      test_content+="  check int \"$label\" $right ($call);\n"
+      test_content+="  check int \"$escaped_label\" $right ($call);\n"
       ;;
     bool)
-      test_content+="  check bool \"$label\" $right ($call);\n"
+      test_content+="  check bool \"$escaped_label\" $right ($call);\n"
       ;;
     string)
-      test_content+="  check string \"$label\" $right ($call);\n"
+      test_content+="  check string \"$escaped_label\" $right ($call);\n"
       ;;
     eq)
-      test_content+="  check_eq \"$label\" $right ($call);\n"
+      test_content+="  check_eq \"$escaped_label\" $right ($call);\n"
       ;;
   esac
 done
