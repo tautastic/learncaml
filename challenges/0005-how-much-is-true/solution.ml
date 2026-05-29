@@ -1,8 +1,8 @@
 (*
-   Challenge: How Much is True?
+   Challenge: How Much is True
    Create a function which returns the number of true values there are in an array.
 *)
 
-let countTrue lst : int =
+let count_true lst : int =
   failwith "not implemented"
 

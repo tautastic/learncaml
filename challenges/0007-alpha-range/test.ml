@@ -115,4 +115,4 @@ let test_alpha_range () =
 
 let () =
   run "Alpha-Range"
-    [ ("all tests", [ test_case "basic examples" `Quick test_alpha_range ]) ]
+    [ ("All Tests", [ test_case "All Tests" `Quick test_alpha_range ]) ]

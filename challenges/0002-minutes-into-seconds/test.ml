@@ -1,10 +1,10 @@
 open Alcotest
 
 let test_convert () =
-  assert (Solution.convert 6 = 360);
-  assert (Solution.convert 4 = 240);
-  assert (Solution.convert 8 = 480);
-  assert (Solution.convert 60 = 3600);
+  check int "6 -> 360" 360 (Solution.convert 6);
+  check int "4 -> 240" 240 (Solution.convert 4);
+  check int "8 -> 480" 480 (Solution.convert 8);
+  check int "60 -> 3600" 3600 (Solution.convert 60);
   ()
 
 let () =
