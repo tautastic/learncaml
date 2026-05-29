@@ -4,5 +4,4 @@
 *)
 
 let tri_area base height : int =
-  failwith "not implemented"
-
+  (base * height) / 2

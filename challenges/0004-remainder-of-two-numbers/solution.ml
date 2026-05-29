@@ -4,5 +4,4 @@
 *)
 
 let remainder x y : int =
-  failwith "not implemented"
-
+  x mod y

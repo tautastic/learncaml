@@ -4,5 +4,4 @@
 *)
 
 let convert minutes : int =
-  failwith "not implemented"
-
+  minutes * 60

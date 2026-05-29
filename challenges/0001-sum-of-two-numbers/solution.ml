@@ -4,5 +4,4 @@
 *)
 
 let addition a b : int =
-  failwith "not implemented"
-
+  a + b
