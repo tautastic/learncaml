@@ -18,20 +18,31 @@ get_next_number() {
   printf "%04d" $((max_num + 1))
 }
 
+infer_type() {
+  local expected="$1"
+  local lower=$(echo "$expected" | tr '[:upper:]' '[:lower:]')
+  if [[ "$expected" =~ '^".*"$' ]]; then
+    type_name="string"
+  elif [[ "$lower" == "true" || "$lower" == "false" ]]; then
+    type_name="bool"
+  elif [[ "$expected" =~ '^[+-]?[0-9]+$' ]]; then
+    type_name="int"
+  else
+    type_name="eq"
+  fi
+}
+
 echo "==> Creating a new OCaml challenge stub"
 
-# Challenge name
 while true; do
   read "challenge_name?Challenge name: "
   [[ -n "$challenge_name" ]] && break
   echo "   Please enter a non-empty name."
 done
 
-# Description
 echo "Description (one line, optional):"
 read "description"
 
-# Bare signature (without 'let' and without trailing '=')
 echo "Function signature (e.g., 'addition a b : int' or 'convert minutes'):"
 read "bare_sig"
 while [[ -z "$bare_sig" ]]; do
@@ -39,17 +50,14 @@ while [[ -z "$bare_sig" ]]; do
   read "bare_sig"
 done
 
-# Extract function name: first word (alphanumeric + underscore)
 func_name=$(echo "$bare_sig" | awk '{print $1}')
 if [[ -z "$func_name" ]]; then
   echo "ERROR: Could not extract function name."
   exit 1
 fi
 
-# Construct full let line: "let signature ="
 let_line="let $bare_sig ="
 
-# Test cases
 echo "Enter test cases. For each, provide arguments separated by spaces, then '->', then expected value."
 echo "Examples:"
 echo "  Single arg:   5 -> 1825"
@@ -68,7 +76,11 @@ if [[ ${#test_cases[@]} -eq 0 ]]; then
   exit 1
 fi
 
-# Create directory
+first_expected="${test_cases[1]#*->}"
+first_expected="$(echo -n "$first_expected" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+infer_type "$first_expected"
+return_type="$type_name"
+
 mkdir -p "$challenges_dir"
 next_num=$(get_next_number)
 slug=$(echo "$challenge_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
@@ -83,7 +95,6 @@ fi
 echo "==> Creating $full_path"
 mkdir -p "$full_path"
 
-# Write dune
 cat > "$full_path/dune" <<EOF
 (test
  (name test)
@@ -92,7 +103,6 @@ cat > "$full_path/dune" <<EOF
  (package learncaml))
 EOF
 
-# Write solution.ml – full let line with failwith body
 cat > "$full_path/solution.ml" <<EOF
 (*
    Challenge: $challenge_name
@@ -104,29 +114,44 @@ $let_line
 
 EOF
 
-# Write test.ml using plain asserts (works for any type)
-test_content="open Alcotest\n\n"
-test_content+="let test_$func_name () =\n"
+test_content="open Alcotest\n"
+
+if [[ "$return_type" == "eq" ]]; then
+  test_content+="\nlet check_eq label expected actual =\n"
+  test_content+="  check bool (Printf.sprintf \"expected %s, got %s\" (string_of expected) (string_of actual)) (actual = expected)\n"
+fi
+
+test_content+="\nlet test_$func_name () =\n"
 
 for tc in "${test_cases[@]}"; do
-  # Split at '->'
   left="${tc%%->*}"
   right="${tc#*->}"
-  # Trim spaces
   left="$(echo -n "$left" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
   right="$(echo -n "$right" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
 
-  # Split left into arguments (space-separated)
+  label="${left} -> ${right}"
+
   args=()
   for a in ${(s: :)left}; do
     args+=("$a")
   done
 
-  # Build function call: Solution.func arg1 arg2 ...
   call="Solution.$func_name ${args[@]}"
 
-  # Generate assertion
-  test_content+="  assert ($call = $right);\n"
+  case "$return_type" in
+    int)
+      test_content+="  check int \"$label\" $right ($call);\n"
+      ;;
+    bool)
+      test_content+="  check bool \"$label\" $right ($call);\n"
+      ;;
+    string)
+      test_content+="  check string \"$label\" $right ($call);\n"
+      ;;
+    eq)
+      test_content+="  check_eq \"$label\" $right ($call);\n"
+      ;;
+  esac
 done
 
 test_content+="  ()\n\n"
