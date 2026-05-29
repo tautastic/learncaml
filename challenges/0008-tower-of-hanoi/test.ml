@@ -13,4 +13,3 @@ let test_tower_hanoi () =
 let () =
   run "Tower of Hanoi"
     [ ("All Tests", [ test_case "All Tests" `Quick test_tower_hanoi ]) ]
-

@@ -11,4 +11,3 @@ let test_tri_area () =
 let () =
   run "Area of a Triangle"
     [ ("All Tests", [ test_case "All Tests" `Quick test_tri_area ]) ]
-

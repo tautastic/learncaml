@@ -10,4 +10,3 @@ let test_convert () =
 let () =
   run "Minutes into Seconds"
     [ ("All Tests", [ test_case "All Tests" `Quick test_convert ]) ]
-

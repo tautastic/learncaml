@@ -10,4 +10,3 @@ let test_addition () =
 let () =
   run "Sum of Two Numbers"
     [ ("All Tests", [ test_case "All Tests" `Quick test_addition ]) ]
-

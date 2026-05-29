@@ -10,4 +10,3 @@ let test_remainder () =
 let () =
   run "Remainder of Two Numbers"
     [ ("All Tests", [ test_case "All Tests" `Quick test_remainder ]) ]
-

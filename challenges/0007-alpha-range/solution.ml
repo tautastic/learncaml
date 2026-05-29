@@ -19,6 +19,6 @@
    2. start and stop have different case (one uppercase, one lowercase) ->
       "both start and stop must share the same case"
 *)
-let alpha_range (start : char) (stop : char) (step : int) : (char list, string) result =
+let alpha_range (start : char) (stop : char) (step : int) :
+    (char list, string) result =
   failwith "not implemented"
-
